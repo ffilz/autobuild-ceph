@@ -56,6 +56,10 @@ env.roledefs['gitbuilder_apache_hadoop'] = [
     'ubuntu@gitbuilder-precise-apache-hadoop-amd64.front.sepia.ceph.com',
     ]
 
+env.roledefs['gitbuilder_ganesha_rpm'] = [
+    'ubuntu@gitbuilder-ganesha-centos7-amd64-basic.front.sepia.ceph.com',
+    ]
+
 
 #################
 
@@ -184,6 +188,7 @@ def _rh_gitbuilder(flavor, git_repo, extra_remotes={}, extra_packages=[], ignore
         sudo('git init')
         sudo('test -d /home/ubuntu || ln -sf /home/centos /home/ubuntu')
         sudo('git pull /home/ubuntu/bundle {branch_to_bundle}'.format(branch_to_bundle=branch_to_bundle))
+        print >> sys.stdout, 'Got here'
         sudo('ln -sf build-{flavor}.sh build.sh'.format(flavor=flavor))
         brand_new = False
         if not exists('gitbuilder.git'):
@@ -767,6 +772,55 @@ def _gitbuilder_ceph_rpm(url, flavor, extra_remotes={}):
         )
     with cd('/srv/autobuild-ceph'):
         sudo('echo centos6 > dists')
+    sudo('start autobuild-ceph || /etc/init.d/autobuild-ceph start ; systemctl enable autobuild-ceph || true ; systemctl start autobuild-ceph || true')
+
+def _ganesha_rpm_deps():
+    _rpm_install(
+        'cmake',
+        'krb5-devel',
+        'krb5-libs',
+        'bison',
+        'flex',
+        'pkgconfig',
+        'doxygen',
+        'libuuid',
+        'libuuid-devel',
+        'libblkid',
+        'libblkid-devel',
+        'libcap-devel',
+        'dbus-devel',
+        'dbusmenu-qt',
+        'python-devel',
+        'python-qt4-devel',
+        'PyQt4-devel',
+        'jemalloc',
+        'jemalloc-devel',
+        'ncurses-devel',
+        'libcap-devel',
+        'libnfsidmap-devel',
+        'libntirpc-devel',
+        'nfs-utils',
+        #'libgssglue-devel',
+        #'systemd-rpm-macros',
+        'systemd',
+        'initscripts',
+        'libattr-devel',
+        'lttng-ust-devel',
+        'libcephfs1-devel',
+        #'librgw2-devel',
+        'xfsprogs-devel',
+        'libacl-devel',
+        'rpm-build',
+        )
+
+@roles('gitbuilder_ganesha_rpm')
+def gitbuilder_ganesha_rpm():
+    _ganesha_rpm_deps()
+    _rh_gitbuilder(
+        flavor='ganesha-rpm',
+        git_repo='https://github.com/nfs-ganesha/nfs-ganesha.git',
+        )
+    #_sync_to_gitbuilder('kernel','rpm','basic')
     sudo('start autobuild-ceph || /etc/init.d/autobuild-ceph start ; systemctl enable autobuild-ceph || true ; systemctl start autobuild-ceph || true')
 
 
