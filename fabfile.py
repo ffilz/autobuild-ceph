@@ -188,7 +188,6 @@ def _rh_gitbuilder(flavor, git_repo, extra_remotes={}, extra_packages=[], ignore
         sudo('git init')
         sudo('test -d /home/ubuntu || ln -sf /home/centos /home/ubuntu')
         sudo('git pull /home/ubuntu/bundle {branch_to_bundle}'.format(branch_to_bundle=branch_to_bundle))
-        print >> sys.stdout, 'Got here'
         sudo('ln -sf build-{flavor}.sh build.sh'.format(flavor=flavor))
         brand_new = False
         if not exists('gitbuilder.git'):
@@ -236,15 +235,15 @@ def _rh_gitbuilder(flavor, git_repo, extra_remotes={}, extra_packages=[], ignore
                     if not exists('gnupg'):
                         sudo('mkdir gnupg')
                     sudo('chown autobuild-ceph:autobuild-ceph gnupg ; chmod 700 gnupg')
-                    with cd('gnupg'):
-                        if not exists('pubring.gpg'):
-                            # put doesn't honor cd() for some reason
-                            put('gnupg/pubring.gpg')
-                            put('gnupg/secring.gpg')
-                            put('trustdb.gpg')
-                            sudo("mv /home/ubuntu/*.gpg ./")
-                            sudo('chown autobuild-ceph:autobuild-ceph pubring.gpg secring.gpg trustdb.gpg')
-                            sudo('chmod 600 pubring.gpg secring.gpg trustdb.gpg')
+                    #with cd('gnupg'):
+                    #    if not exists('pubring.gpg'):
+                    #        # put doesn't honor cd() for some reason
+                    #        put('gnupg/pubring.gpg')
+                    #        put('gnupg/secring.gpg')
+                    #        put('trustdb.gpg')
+                    #        sudo("mv /home/ubuntu/*.gpg ./")
+                    #        sudo('chown autobuild-ceph:autobuild-ceph pubring.gpg secring.gpg trustdb.gpg')
+                    #        sudo('chmod 600 pubring.gpg secring.gpg trustdb.gpg')
         with cd('/srv/autobuild-ceph'):
             if ignore:
                 sudo('install -d -m0755 --owner=autobuild-ceph --group=autobuild-ceph gitbuilder.git/out/ignore')
@@ -821,7 +820,10 @@ def gitbuilder_ganesha_rpm():
         git_repo='https://github.com/nfs-ganesha/nfs-ganesha.git',
         )
     #_sync_to_gitbuilder('kernel','rpm','basic')
-    sudo('start autobuild-ceph || /etc/init.d/autobuild-ceph start ; systemctl enable autobuild-ceph || true ; systemctl start autobuild-ceph || true')
+    sudo('echo got here')
+    #sudo('start autobuild-ceph || /etc/init.d/autobuild-ceph start ; systemctl enable autobuild-ceph || true ; systemctl start autobuild-ceph || true')
+    sudo('/etc/init.d/autobuild-ceph start')
+    sudo('echo and here')
 
 
 def _sync_to_gitbuilder(package, format, flavor):

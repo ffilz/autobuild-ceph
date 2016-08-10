@@ -91,6 +91,7 @@ VERSION="${GIT_VERSION}.$(date +%Y%m%d).${GIT_HASH}"
 
 #exit ${RET}
 
+echo inside ganesha build script
 ls -la
 pwd
 
