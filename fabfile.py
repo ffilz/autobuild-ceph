@@ -333,6 +333,7 @@ def _gitbuilder(flavor, git_repo, extra_remotes={}, extra_packages=[], ignore=[]
             sudo('git remote set-url origin %s' % gitbuilder_origin)
             sudo('git fetch origin')
             sudo('git reset --hard %s' % gitbuilder_commit)
+            sudo('pwd')
         with cd('gitbuilder.git/build'):
             sudo(
                 'git remote set-url origin {url}'.format(
