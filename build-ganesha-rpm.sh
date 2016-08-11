@@ -9,6 +9,7 @@ set -x
 echo in build script
 pwd
 git log -1 --format=%h
+echo -----
 
 # variables that we need
 #[ -n "${TEMPLATES_URL}" ]
