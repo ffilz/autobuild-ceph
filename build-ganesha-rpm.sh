@@ -29,6 +29,21 @@ BRANCH=$(../branches.sh -v | grep $REV | awk '{print $2}') || BRANCH="unknown"
 BRANCH=$(basename $BRANCH)
 echo "Building branch=$BRANCH, sha1=$REV, version=$VER"
 
+rm -Rf build
+rm -Rf src/_CPack_Packages
+git clean -dfx
+git clean -dfX
+git submodule update
+git submodule sync
+sleep 5
+mkdir build
+cd build
+cmake ../src -DDEBUG_SYMS=ON -DCMAKE_PREFIX_PATH=/usr/ -DCMAKE_BUILD_TYPE=Maintainer -DDEBUG_SAL=ON -DBUILD_CONFIG=vfs_only -DUSE_GUI_ADMIN_TOOLS=OFF -DRGW_PREFIX=/usr/local
+make
+make rpm
+
+
+
 # variables that we need
 #[ -n "${TEMPLATES_URL}" ]
 #[ -n "${CENTOS_VERSION}" ]
