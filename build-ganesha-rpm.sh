@@ -11,6 +11,24 @@ pwd
 git log -1 --format=%h
 echo -----
 
+rm -rf rpmbuild
+
+REV="$(git rev-parse HEAD)"
+VER="$(git describe)"
+
+# Reformat version if needed to match RPM version and release
+if expr index $(git describe --always) '-' > /dev/null ; then
+    desc=$(git describe --always | sed 's/^v//')
+    RPM_VER=$(echo $desc | cut -d'-' -f1)
+    RPM_REL=$(echo $desc | cut -d- -f2- | tr '-' '.')
+    VER=${RPM_VER}-${RPM_REL}
+fi
+
+# Try to determine branch name
+BRANCH=$(../branches.sh -v | grep $REV | awk '{print $2}') || BRANCH="unknown"
+BRANCH=$(basename $BRANCH)
+echo "Building branch=$BRANCH, sha1=$REV, version=$VER"
+
 # variables that we need
 #[ -n "${TEMPLATES_URL}" ]
 #[ -n "${CENTOS_VERSION}" ]
