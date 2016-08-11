@@ -9,14 +9,11 @@
 # Short-Description: Start ceph autobuilder
 ### END INIT INFO
 
-echo got command $1
-
 case $1 in
         start)
                 pgrep loop.sh && exit 0
                 cd /srv/autobuild-ceph
                 setsid ./loop.sh &
-                sleep 25
                 ;;
         stop)
                 killall -g loop.sh

@@ -1,8 +1,6 @@
 #!/bin/sh
 set -e
 
-echo inside run "0 = $0 star = $*"
-
 # stdout/stderr are not yet redirected on /etc/init.d systems
 exec >>logs/stdout.log 2>>logs/stderr.log
 

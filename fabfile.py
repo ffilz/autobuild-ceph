@@ -333,7 +333,6 @@ def _gitbuilder(flavor, git_repo, extra_remotes={}, extra_packages=[], ignore=[]
             sudo('git remote set-url origin %s' % gitbuilder_origin)
             sudo('git fetch origin')
             sudo('git reset --hard %s' % gitbuilder_commit)
-            sudo('pwd')
         with cd('gitbuilder.git/build'):
             sudo(
                 'git remote set-url origin {url}'.format(
@@ -821,10 +820,7 @@ def gitbuilder_ganesha_rpm():
         git_repo='https://github.com/nfs-ganesha/nfs-ganesha.git',
         )
     #_sync_to_gitbuilder('kernel','rpm','basic')
-    sudo('echo got here')
-    #sudo('start autobuild-ceph || /etc/init.d/autobuild-ceph start ; systemctl enable autobuild-ceph || true ; systemctl start autobuild-ceph || true')
-    sudo('/etc/init.d/autobuild-ceph start')
-    sudo('echo and here')
+    sudo('start autobuild-ceph || /etc/init.d/autobuild-ceph start ; systemctl enable autobuild-ceph || true ; systemctl start autobuild-ceph || true')
 
 
 def _sync_to_gitbuilder(package, format, flavor):

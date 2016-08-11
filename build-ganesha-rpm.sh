@@ -7,11 +7,13 @@ set -e
 set -x
 
 echo in build script
+pwd
+git log -1 --format=%h
 
 # variables that we need
-[ -n "${TEMPLATES_URL}" ]
-[ -n "${CENTOS_VERSION}" ]
-[ -n "${CENTOS_ARCH}" ]
+#[ -n "${TEMPLATES_URL}" ]
+#[ -n "${CENTOS_VERSION}" ]
+#[ -n "${CENTOS_ARCH}" ]
 
 # weĺl need yum-utils for yum-config-manager
 #yum -y install yum-utils
