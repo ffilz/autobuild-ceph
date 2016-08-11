@@ -820,7 +820,10 @@ def gitbuilder_ganesha_rpm():
         git_repo='https://github.com/nfs-ganesha/nfs-ganesha.git',
         )
     #_sync_to_gitbuilder('kernel','rpm','basic')
-    sudo('start autobuild-ceph || /etc/init.d/autobuild-ceph start ; systemctl enable autobuild-ceph || true ; systemctl start autobuild-ceph || true')
+    sudo('echo got here')
+    #sudo('start autobuild-ceph || /etc/init.d/autobuild-ceph start ; systemctl enable autobuild-ceph || true ; systemctl start autobuild-ceph || true')
+    sudo('/etc/init.d/autobuild-ceph start')
+    sudo('echo and here')
 
 
 def _sync_to_gitbuilder(package, format, flavor):
