@@ -6,6 +6,8 @@ set -e
 # be a little more verbose
 set -x
 
+echo in build script
+
 # variables that we need
 [ -n "${TEMPLATES_URL}" ]
 [ -n "${CENTOS_VERSION}" ]
