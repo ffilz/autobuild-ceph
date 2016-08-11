@@ -26,7 +26,6 @@ fi
 
 # Try to determine branch name
 BRANCH=$(../branches.sh -v | grep $REV | awk '{print $2}') || BRANCH="unknown"
-BRANCH=$(basename $BRANCH)
 echo "Building branch=$BRANCH, sha1=$REV, version=$VER"
 
 rm -Rf build
