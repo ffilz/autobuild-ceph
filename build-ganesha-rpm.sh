@@ -32,12 +32,13 @@ rm -Rf build
 rm -Rf src/_CPack_Packages
 git clean -dfx
 git clean -dfX
+git submodule init
 git submodule update
 git submodule sync
 sleep 5
 mkdir build
 cd build
-cmake ../src -DDEBUG_SYMS=ON -DCMAKE_PREFIX_PATH=/usr/ -DCMAKE_BUILD_TYPE=Maintainer -DDEBUG_SAL=ON -DBUILD_CONFIG=vfs_only -DUSE_GUI_ADMIN_TOOLS=OFF -DRGW_PREFIX=/usr/local
+cmake ../src -DDEBUG_SYMS=ON -DCMAKE_PREFIX_PATH=/usr/ -DCMAKE_BUILD_TYPE=Maintainer -DDEBUG_SAL=ON -DBUILD_CONFIG=vfs_only -DUSE_GUI_ADMIN_TOOLS=OFF -DRGW_PREFIX=/usr/local -DUSE_FSAL_CEPH=ON
 make
 make rpm
 
